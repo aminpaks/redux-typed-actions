@@ -1,5 +1,5 @@
 /**
- * @license Redux-Typed-Actions v0.0.1
+ * @license Redux-Typed-Actions v0.0.2
  * (c) 2017 Amin Paks <amin.pakseresht@hotmail.com>
  * License: MIT
  */
@@ -15,6 +15,7 @@ export interface PlainAction<P = any, TK extends ActionTypeKey = any> {
 }
 
 export interface ClassAction<P, TK extends ActionTypeKey = any> {
+  type: TK;
   is(action: PlainAction): action is PlainAction<P, TK>;
   get(payload?: P, meta?: string): PlainAction<P, TK>;
   strictGet(payload: P, meta?: string): PlainAction<P, TK>;
@@ -42,6 +43,17 @@ export function defineAction<P = undefined>(actionTypeName: string): ClassAction
   };
 
   Object.defineProperties(classAction, {
+    /**
+     * Defines a static property to get the "type" key
+     * of this action
+     */
+    type: {
+      writable: false,
+      enumerable: true,
+      configurable: false,
+      value: actionTypeName,
+    },
+
     /**
      * Defines a static method to check if a plain action
      * has the same type key as this defined action.
