@@ -1,0 +1,34 @@
+{
+    "rules": {
+      "trailing-comma": [
+        true,
+        {
+          "multiline": "always",
+          "singleline": "never"
+        }
+      ],
+      "indent": [
+        true,
+        "spaces",
+        2
+      ],
+      "semicolon": [
+        true,
+        "always",
+        "ignore-bound-class-methods"
+      ],
+      "ordered-imports": [
+        true,
+        {
+          "named-imports-order": "case-insensitive",
+          "import-sources-order": "any"
+        }
+      ],
+      "strict-type-predicates": true,
+      "prefer-const": true,
+      "no-shadowed-variable": true,
+      "import-spacing": true,
+      "space-within-parens": true
+    }
+  }
+  

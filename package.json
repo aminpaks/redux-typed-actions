@@ -1,0 +1,35 @@
+{
+  "name": "redux-typed-actions",
+  "description": "An approach to type Redux actions and their payload and statically type checking them in Typescript",
+  "version": "0.0.1",
+  "license": "MIT",
+  "main": "dist/bundles/redux-typed-actions.umd.js",
+  "module": "dist/redux-typed-actions.es5.js",
+  "es2015": "dist/redux-typed-actions.js",
+  "typings": "dist/redux-typed-actions.d.ts",
+  "scripts": {
+    "lint": "tslint -p tsconfig.json --type-check",
+    "build": "tsb"
+  },
+  "keywords": [
+    "typescript",
+    "redux",
+    "action",
+    "type",
+    "type-checking"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aminpaks/redux-typed-actions"
+  },
+  "bugs": {
+    "url": "https://github.com/aminpaks/redux-typed-actions/issues"
+  },
+  "dependencies": {
+    "typescript": ">=2.3.0"
+  },
+  "devDependencies": {
+    "tslint": "^5.7.0",
+    "typescript-library-bundler": "^0.1.0"
+  }
+}

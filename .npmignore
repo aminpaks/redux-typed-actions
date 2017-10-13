@@ -1,0 +1,11 @@
+# compiler
+.compile/
+
+# source
+src/
+
+# configs
+.*
+tsconfig*
+tslint*
+yarn*
