@@ -1,5 +1,5 @@
 /**
- * @license Redux-Typed-Actions v0.0.2
+ * @license Redux-Typed-Actions v0.0.3
  * (c) 2017 Amin Paks <amin.pakseresht@hotmail.com>
  * License: MIT
  */

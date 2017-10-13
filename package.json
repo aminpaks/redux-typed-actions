@@ -1,7 +1,7 @@
 {
   "name": "redux-typed-actions",
   "description": "An approach to type Redux actions and their payload and statically type checking them in Typescript",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "license": "MIT",
   "main": "dist/bundles/redux-typed-actions.umd.js",
   "module": "dist/redux-typed-actions.es5.js",

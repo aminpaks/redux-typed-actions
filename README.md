@@ -77,3 +77,6 @@ Let's do a quick example to see how this approach can improve type checking of r
    ```
 
 4. That's it :)
+
+
+Take a look at [this example](https://stackblitz.com/edit/redux-typed-actions-example) for a more closer look.
