@@ -15,6 +15,7 @@
     ]
   },
   "bundlerOptions": {
-    "entry": "./src/public-api.ts"
+    "entry": "./src/public-api.ts",
+    "outDir": "lib"
   }
 }
