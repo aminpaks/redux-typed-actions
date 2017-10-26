@@ -22,6 +22,7 @@ describe('Define Actions', () => {
 
     assert.isObject(simplePlainAction);
     assert.isNotFunction(simplePlainAction);
+    assert.isString(simplePlainAction.meta);
     assert.deepEqual(simplePlainAction.meta, 'simple meta');
     assert.isBoolean(simplePlainAction.error);
     assert.isNotNumber(simplePlainAction.error);
