@@ -1,14 +1,16 @@
 {
   "name": "redux-typed-actions",
   "description": "An approach to type Redux actions and their payload and statically type checking them in Typescript",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "license": "MIT",
-  "main": "dist/bundles/redux-typed-actions.umd.js",
-  "module": "dist/redux-typed-actions.es5.js",
-  "es2015": "dist/redux-typed-actions.js",
-  "typings": "dist/redux-typed-actions.d.ts",
+  "main": "lib/bundles/redux-typed-actions.umd.js",
+  "module": "lib/redux-typed-actions.es5.js",
+  "es2015": "lib/redux-typed-actions.js",
+  "typings": "lib/redux-typed-actions.d.ts",
   "scripts": {
+    "prepublish": "npm run lint && npm run test && npm run build",
     "lint": "tslint -p tsconfig.json --type-check",
+    "test": "mocha --reporter spec --colors \"build/**/*.spec.js\"",
     "build": "tsb"
   },
   "keywords": [
@@ -29,7 +31,12 @@
     "typescript": ">=2.3.0"
   },
   "devDependencies": {
+    "@types/chai": "^4.0.4",
+    "@types/mocha": "^2.2.43",
+    "@types/node": "^8.0.46",
+    "chai": "^4.1.2",
+    "mocha": "^4.0.1",
     "tslint": "^5.7.0",
-    "typescript-library-bundler": "^0.1.0"
+    "typescript-library-bundler": "~0.1.0"
   }
 }
