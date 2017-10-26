@@ -25,6 +25,7 @@ export class ClassActionFactory {
     }
 
     this.setSuffixes({
+      empty: '',
       start: '',
       success: ' Success',
       failure: ' Failure',

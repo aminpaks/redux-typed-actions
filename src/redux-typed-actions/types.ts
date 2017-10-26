@@ -2,6 +2,7 @@
 export type Environment = 'production' |  'development';
 
 export enum ActionTypes {
+  empty,
   start,
   success,
   failure,

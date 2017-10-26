@@ -46,8 +46,8 @@ export interface ClassScenarioAction<P, SP, FP = string, TK extends ActionTypeKe
  */
 export function defineAction<Payload = undefined>(actionTypeName: string): ClassAction<Payload, string> {
 
-  const normalActionTypeName = factory.getTypeName(actionTypeName, ActionTypes.start);
-  const classAction = generateClassAction(normalActionTypeName);
+  const prefixedActionTypeName = factory.getTypeName(actionTypeName, ActionTypes.empty);
+  const classAction = generateClassAction(prefixedActionTypeName);
   const getMethod: Function = (payload = undefined, meta = undefined, error = false) => {
     return {
       type: actionTypeName,
@@ -69,10 +69,11 @@ export function defineAction<Payload = undefined>(actionTypeName: string): Class
  */
 export function defineScenarioAction<Payload = undefined, SuccessPayload = string, FailurePayload = string>(actionTypeName: string): ClassScenarioAction<Payload, SuccessPayload, FailurePayload, string> {
 
+  const startActionTypeName = factory.getTypeName(actionTypeName, ActionTypes.start);
   const successActionTypeName = factory.getTypeName(actionTypeName, ActionTypes.success);
   const failureActionTypeName = factory.getTypeName(actionTypeName, ActionTypes.failure);
 
-  const classAction = defineAction(actionTypeName);
+  const startClassAction = generateClassAction(startActionTypeName);
   const successClassAction = generateClassAction(successActionTypeName);
   const failureClassAction = generateClassAction(failureActionTypeName);
 
@@ -85,10 +86,11 @@ export function defineScenarioAction<Payload = undefined, SuccessPayload = strin
     };
   };
 
+  defineClassActionProperties(startClassAction, startActionTypeName, getMethod.bind(null, startActionTypeName, false));
   defineClassActionProperties(successClassAction, successActionTypeName, getMethod.bind(null, successActionTypeName, false));
   defineClassActionProperties(failureClassAction, failureActionTypeName, getMethod.bind(null, failureActionTypeName, true));
 
-  defineProperties(classAction, {
+  defineProperties(startClassAction, {
 
     /**
      * Returns a simple class action for success
@@ -112,7 +114,7 @@ export function defineScenarioAction<Payload = undefined, SuccessPayload = strin
 
   });
 
-  return classAction as any;
+  return startClassAction as any;
 }
 
 /**
