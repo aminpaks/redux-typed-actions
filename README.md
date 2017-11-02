@@ -19,7 +19,7 @@ Let's do a quick example to see how this approach can improve type checking of r
 1. First we define our actions:  
     **feature-x.actions.ts**
     ```ts
-    import { defineAction, defineSymbolAction } from 'redux-typed-actions';
+    import { defineAction, defineScenarioAction, defineSymbolAction } from 'redux-typed-actions';
     import { ItemX } from './feature-x.types';
 
     // For this action we will have number as our payload
@@ -44,8 +44,8 @@ Let's do a quick example to see how this approach can improve type checking of r
     import { factory } from 'redux-typed-actions';
     
     // You must set them before defining actions
-    factory.setSuffixed({
-      start: '_START',
+    factory.setSuffixes({
+      start: '_REQUEST',
       success: '_SUCCESS',
       failure: '_FAILURE',
     });
@@ -68,7 +68,7 @@ Let's do a quick example to see how this approach can improve type checking of r
     ...
     class FeatureX extends React.Component<FeatureXProps> {
       ...
-      addTicket = () => this.props.addTicket(1)
+      addTicket = () => this.props.addTicket(1) // <- Static type checking
 
       render() {
         return (<button onClick={this.addTicket}>Add one ticket</button>); // />
