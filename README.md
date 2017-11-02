@@ -1,6 +1,7 @@
 ## Redux Typed Actions
 
-An opinionated approach to type actions and their payload in Redux with statically type checking in Typescript (maybe flow in the future.)
+An opinionated approach to type actions and their payload in Redux with statically type checking in Typescript.
+This approach removes the most possible boilerplate of your actions & their creators in React and any other frameworks.
 
 ## Installation
 Let's get started by installing it from [npm repository](https://www.npmjs.com/package/redux-typed-actions)
@@ -57,6 +58,28 @@ Let's do a quick example to see how this approach can improve type checking of r
     import { FeatureXAddTicketAction, FeatureXLoadAction } from '../feature-x.actions';
     ...
 
+    // React Redux solution to replace action creators:
+    // Let's define our component's state
+    interface FeatureXProps {
+      ...
+      addTicket: typeof FeatureXAddTicketAction.strictGet;
+    }
+
+    ...
+    class FeatureX extends React.Component<FeatureXProps> {
+      ...
+      addTicket = () => this.props.addTicket(1)
+
+      render() {
+        return (<button onClick={this.addTicket}>Add one ticket</button>); // />
+      }
+    }
+
+    // Let's hook the action to redux, and we're done
+    export default connect(undefined, { addTicket: FeatureXAddTicketAction.strictGet })(FeatureX);
+
+
+    // All Typescript frameworks:
     // Dispatching a simple action
     store.dispatch(FeatureXAddTicketAction.get(100));
 
@@ -118,4 +141,4 @@ Let's do a quick example to see how this approach can improve type checking of r
 5. That's it
 
 
-Take a look at [this example](https://stackblitz.com/edit/redux-typed-actions-example) for a more closer look.
+Take a look at [React](https://stackblitz.com/edit/react-redux-observable) or [Angular](https://stackblitz.com/edit/redux-typed-actions-example) examples for a closer look.
