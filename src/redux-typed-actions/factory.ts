@@ -18,11 +18,13 @@ export class ClassActionFactory {
   private registry: { [name: string]: boolean } = {};
 
   constructor() {
-    if (process && process.env && process.env.NODE_ENV === 'production') {
+    /* tslint:disable:strict-type-predicates */
+    if (process != undefined && process.env != undefined && process.env.NODE_ENV === 'production') {
       this.env = 'production';
     } else {
       this.env = 'development';
     }
+    /* tslint:enable:strict-type-predicates */
 
     this.setSuffixes({
       empty: '',
