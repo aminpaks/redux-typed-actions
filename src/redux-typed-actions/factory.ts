@@ -19,7 +19,7 @@ export class ClassActionFactory {
 
   constructor() {
     /* tslint:disable:strict-type-predicates */
-    if (process != undefined && process.env != undefined && process.env.NODE_ENV === 'production') {
+    if (typeof process !== 'undefined' && process.env != undefined && process.env.NODE_ENV === 'production') {
       this.env = 'production';
     } else {
       this.env = 'development';
