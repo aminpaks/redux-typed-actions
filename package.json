@@ -10,6 +10,7 @@
   "scripts": {
     "prepublish": "npm run lint && npm run test && npm run build",
     "lint": "tslint -p tsconfig.json --type-check",
+    "pretest": "tsc -p src",
     "test": "mocha --reporter spec --colors \"build/**/*.spec.js\"",
     "build": "tsb"
   },
