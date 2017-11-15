@@ -16,6 +16,14 @@ $ yarn add --dev redux-typed-actions
 ## Usage
 Let's do a quick example to see how this approach can improve type checking of redux actions
 
+0. You have an ItemX interface:  
+    **feature-x.types.ts**
+    ```ts
+    export interface ItemX {
+      title: string;
+    }
+    ```
+
 1. First we define our actions:  
     **feature-x.actions.ts**
     ```ts
@@ -30,8 +38,8 @@ Let's do a quick example to see how this approach can improve type checking of r
      *  It notifies the system with status of a process covering from start to end.
      *  You can get Start/Success/Failure from this action generator
      *  There are 3 types that belong respectively to Start/Success/Failure
-     *  Note: You the default type for payload of success and failure is
-     *  string so you can skip them as `defineScenarioAction('Action')` 
+     *  Note: The default type for payload of success and failure is
+     *  string so you can skip them like `defineScenarioAction('MyActionName')` 
      */
     export const FeatureXLoadAction = defineScenarioAction<undefined, ItemX[], string>('[Feature X] Load');
 
@@ -62,7 +70,7 @@ Let's do a quick example to see how this approach can improve type checking of r
     // Let's define our component's state
     interface FeatureXProps {
       ...
-      addTicket: typeof FeatureXAddTicketAction.strictGet;
+      addTicket: typeof FeatureXAddTicketAction.strictGet; // StrictGet makes the payload mandatory
     }
 
     ...
@@ -112,18 +120,37 @@ Let's do a quick example to see how this approach can improve type checking of r
        return {
          ...state,
          loading: true,
-       }
+       };
 
      } else if (FeatureXLoadAction.success.is(action)) {
        return {
          ...state,
          loading: false,
          items: action.payload, // <- Here we are checking types strongly :)
-       }
+       };
 
      } else {
        return state;
      }
+   }
+   
+   // Or using switch case
+   export function reducer(state: ItemXState = InitialState, action: PlainAction): ItemXState {
+     switch(true)
+     case FeatureXLoadAction.is(action):
+       // Within this branch our action variable has the right typings
+       return {
+         ...state,
+         loading: true,
+       };
+     case FeatureXLoadAction.success.is(action): 
+       return {
+         ...state,
+         loading: false,
+         items: action.payload, // <- Here we are checking types strongly :)
+       };
+     default:
+       return state;
    }
    ```
 
