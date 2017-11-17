@@ -36,24 +36,25 @@ Let's do a quick example to see how this approach can improve type checking of r
     /**
      *  This action is special, it's called a scenario-like action
      *  It notifies the system with status of a process covering from start to end.
-     *  You can get Start/Success/Failure from this action generator
-     *  There are 3 types that belong respectively to Start/Success/Failure
+     *  You can get Start/Success/Failure/Cancel from this action generator/creator
+     *  There are 4 types that belong respectively to Start/Success/Failure/Cancel
      *  Note: The default type for payload of success and failure is
-     *  string so you can skip them like `defineScenarioAction('MyActionName')` 
+     *  string so you can skip them like `defineScenarioAction('MyActionName')`
      */
-    export const FeatureXLoadAction = defineScenarioAction<undefined, ItemX[], string>('[Feature X] Load');
+    export const FeatureXLoadAction = defineScenarioAction<never, ItemX[], string>('[Feature X] Load');
 
     // Let's have a symbol action just for fun
     export const FeatureXDummySymbolAction = defineSymbolAction<ItemX[]>('[Feature X] Dummy Started');
     ```
 
-    Note: You can setup your own suffix for Start/Success/Failure of scenario actions as following example:
+    Note: You can setup your own suffix for Start/Success/Failure/Cancel of scenario actions as following example:
     ```ts
     import { factory } from 'redux-typed-actions';
     
     // You must set them before defining actions
     factory.setSuffixes({
       start: '_REQUEST',
+      cancel: '_CANCEL',
       success: '_SUCCESS',
       failure: '_FAILURE',
     });
@@ -126,31 +127,12 @@ Let's do a quick example to see how this approach can improve type checking of r
        return {
          ...state,
          loading: false,
-         items: action.payload, // <- Here we are checking types strongly :)
+         items: action.payload, // <- Here we are checking types strongly
        };
 
      } else {
        return state;
      }
-   }
-   
-   // Or using switch case
-   export function reducer(state: ItemXState = InitialState, action: PlainAction): ItemXState {
-     switch(true)
-     case FeatureXLoadAction.is(action):
-       // Within this branch our action variable has the right typings
-       return {
-         ...state,
-         loading: true,
-       };
-     case FeatureXLoadAction.success.is(action): 
-       return {
-         ...state,
-         loading: false,
-         items: action.payload, // <- Here we are checking types strongly :)
-       };
-     default:
-       return state;
    }
    ```
 

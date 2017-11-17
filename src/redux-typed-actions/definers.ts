@@ -32,7 +32,8 @@ export interface SimpleClassAction<P, TK extends ActionTypeKey> extends ClassAct
   strictGet(payload: P, meta?: string): PlainAction<P, TK>;
 }
 
-export interface ClassScenarioAction<P, SP, FP = string, TK extends ActionTypeKey = any> extends ClassAction<P, TK> {
+export interface ClassScenarioAction<P, SP, FP, CP, TK extends ActionTypeKey> extends ClassAction<P, TK> {
+  cancel: SimpleClassAction<CP, TK>;
   success: SimpleClassAction<SP, TK>;
   failure: SimpleClassAction<FP, TK>;
   get(payload?: P, meta?: string): PlainAction<P, TK>;
@@ -67,13 +68,16 @@ export function defineAction<Payload = undefined>(actionTypeName: string): Class
  * @param {string} actionTypeName A string or a symbol to represent this action
  * @return {ClassScenarioAction<Payload, SuccessPayload, FailurePayload, string>} Returns a scenario class action that generates actions with string type key
  */
-export function defineScenarioAction<Payload = undefined, SuccessPayload = string, FailurePayload = string>(actionTypeName: string): ClassScenarioAction<Payload, SuccessPayload, FailurePayload, string> {
+export function defineScenarioAction<Payload = undefined, SuccessPayload = string, FailurePayload = string, CancelPayload = never>(actionTypeName: string):
+  ClassScenarioAction<Payload, SuccessPayload, FailurePayload, CancelPayload, string> {
 
   const startActionTypeName = factory.getTypeName(actionTypeName, ActionTypes.start);
+  const cancelActionTypeName = factory.getTypeName(actionTypeName, ActionTypes.cancel);
   const successActionTypeName = factory.getTypeName(actionTypeName, ActionTypes.success);
   const failureActionTypeName = factory.getTypeName(actionTypeName, ActionTypes.failure);
 
   const startClassAction = generateClassAction(startActionTypeName);
+  const cancelClassAction = generateClassAction(cancelActionTypeName);
   const successClassAction = generateClassAction(successActionTypeName);
   const failureClassAction = generateClassAction(failureActionTypeName);
 
@@ -87,10 +91,21 @@ export function defineScenarioAction<Payload = undefined, SuccessPayload = strin
   };
 
   defineClassActionProperties(startClassAction, startActionTypeName, getMethod.bind(null, startActionTypeName, false));
+  defineClassActionProperties(cancelClassAction, cancelActionTypeName, getMethod.bind(null, cancelActionTypeName, false));
   defineClassActionProperties(successClassAction, successActionTypeName, getMethod.bind(null, successActionTypeName, false));
   defineClassActionProperties(failureClassAction, failureActionTypeName, getMethod.bind(null, failureActionTypeName, true));
 
   defineProperties(startClassAction, {
+
+    /**
+     * Returns a simple class action for cancel
+     */
+    cancel: {
+      writable: false,
+      enumerable: false,
+      configurable: false,
+      value: cancelClassAction,
+    },
 
     /**
      * Returns a simple class action for success
